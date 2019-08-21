@@ -2,6 +2,7 @@ import argparse
 from bs4 import BeautifulSoup
 import requests
 from bsoup import players_per_page_list, get_country_id
+import sys
 
 
 def filter_by_country(country, num):
@@ -22,19 +23,13 @@ def filter_by_country(country, num):
 
 
 def main():
-    filter_by_country('Spain', 61)
-
-    # parser = argparse.ArgumentParser(description='Gets a string representing a country and an integer representing the number of results')
-    # parser.add_argument('country', help="The country from which you want to sort.", type=str)
-    # parser.add_argument('num', help="The number of players you want in the result.", type=int)
-    # args = parser.parse_args()
-
-    # result = filter_by_country(args.country, args.num)
-    # print(result)
+    print(sys.argv)
+    parser = argparse.ArgumentParser(description='Gets a string representing a country and an integer representing the number of results')
+    parser.add_argument('-c', '--country', type=str, required=True, help="The country from which you want to sort.")
+    parser.add_argument('-n', '--number', type=int, required=True, help="The number of players you want in the result.")
+    args = parser.parse_args()
+    return filter_by_country(args.country, args.number)
 
 
-main()
-
-
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    print(main())

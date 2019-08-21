@@ -37,5 +37,8 @@ def players_per_page_list(soup, num=60):
 def get_country_id(c):
     source = requests.get('https://sofifa.com/').text
     soup = BeautifulSoup(source, 'html.parser')
-
-    return [i.get('value') for i in soup.find_all('option', class_='cn') if i.text == str(c)][0]
+    try:
+        return [i.get('value') for i in soup.find_all('option', class_='cn') if i.text == str(c)][0]
+    except IndexError:
+        print('There are no players from this country; We\'ll search in the default country, England')
+        return '14'
