@@ -1,37 +1,40 @@
+import argparse
 from bs4 import BeautifulSoup
 import requests
-from Player import Player
+from bsoup import players_per_page_list, get_country_id
 
 
-source = requests.get('https://sofifa.com/?hl=en-US').text
-
-soup = BeautifulSoup(source, 'html.parser')
-
-
-def names_list():
-    return [i.text for i in soup.find_all('a', class_='nowrap')]
-
-
-def countries_list():
-    return [i.a.get('title') for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis') if i.a.get('rel') == ['nofollow']]
-
-
-def ovr_list():
-    return [i.span.text for i in soup.find_all('td', class_='col col-oa')]
-
-
-def pot_list():
-    return [i.span.text for i in soup.find_all('td', class_='col col-pt')]
+def filter_by_country(country, num):
+    cid = get_country_id(country)
+    num_players_left = num % 60
+    num_pages = int(num / 60 + 1)
+    page = 0
+    while page < num_pages:
+        s = 'https://sofifa.com/players?type=all&na%5B%5D=' + cid + '&offset=' + str(page * 60)
+        source = requests.get(s).text
+        soup = BeautifulSoup(source, 'html.parser')
+        if page == num_pages-1:
+            players = players_per_page_list(soup, num_players_left)
+        else:
+            players = players_per_page_list(soup)
+        print("\n".join(players))
+        page += 1
 
 
-names = names_list()
-countries = countries_list()
-ovrs = ovr_list()
-pots = pot_list()
+def main():
+    filter_by_country('Spain', 61)
 
-players = []
-for i in range(0, len(names)):
-    p = Player(names[i], countries[i], ovrs[i], pots[i])
-    players.append(p.__str__())
+    # parser = argparse.ArgumentParser(description='Gets a string representing a country and an integer representing the number of results')
+    # parser.add_argument('country', help="The country from which you want to sort.", type=str)
+    # parser.add_argument('num', help="The number of players you want in the result.", type=int)
+    # args = parser.parse_args()
 
-print("\n".join(players))
+    # result = filter_by_country(args.country, args.num)
+    # print(result)
+
+
+main()
+
+
+# if __name__ == '__main__':
+#     main()
