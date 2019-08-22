@@ -13,7 +13,7 @@ class Run:
         self._database = DB('players.db')
         # self._database = DB()
 
-    def get_players_from_country(self, country, num):
+    def insert_players_from_country(self, country, num):
         self._database.create_players_table()
         # self._database.clear_db()
 
@@ -37,14 +37,16 @@ class Run:
     def filter_young_pot(self):
         return self._database.get_players_by_age_and_pot()
 
+    def print_young_pot(self):
+        print(*self.filter_young_pot(), sep='\n')
+
     def close_db(self):
         self._database.close_connection()
 
-    def main(self):
+    def insert_players_from_country_args(self):
         print(sys.argv)
         parser = argparse.ArgumentParser(description='Gets a string representing a country and an integer representing the number of results')
         parser.add_argument('-c', '--country', type=str, required=True, help="The country from which you want to sort.")
         parser.add_argument('-n', '--number', type=int, required=True, help="The number of players you want in the result.")
         args = parser.parse_args()
-        self.get_players_from_country(args.country, args.number)
-        print(*self.filter_young_pot(), sep='\n')
+        self.insert_players_from_country(args.country, args.number)
