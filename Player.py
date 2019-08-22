@@ -10,5 +10,17 @@ class Player:
         self._ovr = ovr
         self._pot = pot
 
+    def getName(self):
+        return self._name
+
+    def getCountry(self):
+        return self._country
+
+    def getOvr(self):
+        return self._ovr
+
+    def getPot(self):
+        return self._pot
+
     def __str__(self):
-        return "Player name: " + self._name + " country: " + self._country + " OVR: " + self._ovr + " POT: " + self._pot
+        return "Player name: " + self._name + " country: " + self._country + " OVR: " + str(self._ovr) + " POT: " + str(self._pot)

@@ -29,8 +29,8 @@ def players_per_page_list(soup, num=60):
         num = len(names)
     players = []
     for i in range(0, num):
-        p = Player(names[i], countries[i], ovrs[i], pots[i])
-        players.append(p.__str__())
+        p = Player(str(names[i]), str(countries[i]), int(ovrs[i]), int(pots[i]))
+        players.append(p)
     return players
 
 
