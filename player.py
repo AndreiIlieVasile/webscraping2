@@ -31,4 +31,5 @@ class Player:
         return self._team
 
     def __str__(self):
-        return "Player name: " + self._name + " country: " + self._country + " age: " + str(self._age) + " OVR: " + str(self._ovr) + " POT: " + str(self._pot) + " team: " + self._team
+        return "Player name: " + self._name + " country: " + self._country + " age: " + str(self._age) + " OVR: " + \
+               str(self._ovr) + " POT: " + str(self._pot) + " team: " + self._team

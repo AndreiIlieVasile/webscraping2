@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup
 import requests
-from Player import Player
+from bs4 import BeautifulSoup
+
+from player import Player
 
 
 def names_list(soup):
@@ -8,7 +9,8 @@ def names_list(soup):
 
 
 def countries_list(soup):
-    return [i.a.get('title') for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis') if i.a.get('rel') == ['nofollow']]
+    return [i.a.get('title') for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis')
+            if i.a.get('rel') == ['nofollow']]
 
 
 def age_list(soup):
@@ -24,7 +26,8 @@ def pot_list(soup):
 
 
 def team_list(soup):
-    return [i.a.text for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis') if i.a.get('rel') != ['nofollow']]
+    return [i.a.text for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis')
+            if i.a.get('rel') != ['nofollow']]
 
 
 def players_per_page_list(soup, num=60):
@@ -35,7 +38,7 @@ def players_per_page_list(soup, num=60):
     pots = pot_list(soup)
     teams = team_list(soup)
 
-    if num > len(names):                #you can have less than 60 players on a page
+    if num > len(names):  # you can have less than 60 players on a page
         num = len(names)
     players = []
     for i in range(0, num):
@@ -44,11 +47,11 @@ def players_per_page_list(soup, num=60):
     return players
 
 
-def get_country_id(c):
+def get_country_id(country_name):
     source = requests.get('https://sofifa.com/').text
     soup = BeautifulSoup(source, 'html.parser')
     try:
-        return [i.get('value') for i in soup.find_all('option', class_='cn') if i.text == str(c)][0]
+        return [i.get('value') for i in soup.find_all('option', class_='cn') if i.text == str(country_name)][0]
     except IndexError:
         print('There are no players from this country; We\'ll search in the default country, England')
         return '14'

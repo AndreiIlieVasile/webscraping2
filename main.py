@@ -1,19 +1,21 @@
+import argparse
+import sys
+
+import requests
+from bs4 import BeautifulSoup
+
 from bsoup import players_per_page_list, get_country_id
 from sql import DB
-import argparse
-from bs4 import BeautifulSoup
-import requests
-import sys
 
 
 class Run:
     def __init__(self):
         self._database = DB('players.db')
-        #self._database = DB()
+        # self._database = DB()
 
     def get_players_from_country(self, country, num):
         self._database.create_players_table()
-        self._database.clear_db()
+        # self._database.clear_db()
 
         cid = get_country_id(country)
         num_players_left = num % 60
@@ -46,7 +48,3 @@ class Run:
         args = parser.parse_args()
         self.get_players_from_country(args.country, args.number)
         print(*self.filter_young_pot(), sep='\n')
-
-
-# if __name__ == '__main__':
-#     main()
