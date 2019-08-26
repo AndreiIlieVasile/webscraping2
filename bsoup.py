@@ -1,36 +1,37 @@
+from typing import List
 import requests
 from bs4 import BeautifulSoup
 
 from player import Player
 
 
-def names_list(soup):
+def names_list(soup: BeautifulSoup) -> List[str]:
     return [i.text for i in soup.find_all('a', class_='nowrap')]
 
 
-def countries_list(soup):
+def countries_list(soup: BeautifulSoup) -> List[str]:
     return [i.a.get('title') for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis')
             if i.a.get('rel') == ['nofollow']]
 
 
-def age_list(soup):
+def age_list(soup: BeautifulSoup) -> List[str]:
     return [i.text for i in soup.find_all('td', class_='col col-ae')]
 
 
-def ovr_list(soup):
+def ovr_list(soup: BeautifulSoup) -> List[str]:
     return [i.span.text for i in soup.find_all('td', class_='col col-oa')]
 
 
-def pot_list(soup):
+def pot_list(soup: BeautifulSoup) -> List[str]:
     return [i.span.text for i in soup.find_all('td', class_='col col-pt')]
 
 
-def team_list(soup):
+def team_list(soup: BeautifulSoup) -> List[str]:
     return [i.a.text for i in soup.find_all('div', class_='bp3-text-overflow-ellipsis')
             if i.a.get('rel') != ['nofollow']]
 
 
-def players_per_page_list(soup, num=60):
+def players_per_page_list(soup: BeautifulSoup, num=60) -> List[Player]:
     names = names_list(soup)
     countries = countries_list(soup)
     ages = age_list(soup)
@@ -47,7 +48,7 @@ def players_per_page_list(soup, num=60):
     return players
 
 
-def get_country_id(country_name):
+def get_country_id(country_name: str) -> str:
     source = requests.get('https://sofifa.com/').text
     soup = BeautifulSoup(source, 'html.parser')
     try:

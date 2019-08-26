@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+from typing import List
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,7 +14,7 @@ class Run:
         self._database = DB('players.db')
         # self._database = DB()
 
-    def insert_players_from_country(self, country, num):
+    def insert_players_from_country(self, country: str, num: int) -> List[str]:
         self._database.create_players_table()
         # self._database.clear_db()
 
@@ -32,18 +33,19 @@ class Run:
             for i in players:
                 self._database.insert(i)
             page += 1
+        print(type(self._database.get_players_by_ovr()))
         return self._database.get_players_by_ovr()
 
-    def filter_young_pot(self):
+    def filter_young_pot(self) -> List[str]:
         return self._database.get_players_by_age_and_pot()
 
-    def print_young_pot(self):
+    def print_young_pot(self) -> None:
         print(*self.filter_young_pot(), sep='\n')
 
-    def close_db(self):
+    def close_db(self) -> None:
         self._database.close_connection()
 
-    def insert_players_from_country_args(self):
+    def insert_players_from_country_args(self) -> None:
         print(sys.argv)
         parser = argparse.ArgumentParser(description='Gets a string representing a country and an integer representing the number of results')
         parser.add_argument('-c', '--country', type=str, required=True, help="The country from which you want to sort.")
