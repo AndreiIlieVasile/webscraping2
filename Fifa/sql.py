@@ -1,7 +1,7 @@
 import sqlite3
 from typing import List
 
-from player import Player
+from Fifa.player import Player
 
 
 class DB:
@@ -15,7 +15,7 @@ class DB:
 
     def create_players_table(self) -> None:
         self._cursor.execute("""CREATE TABLE IF NOT EXISTS players (
-                                                name text UNIQUE,
+                                                name text,
                                                 country text,
                                                 age integer,
                                                 ovr integer,

@@ -2,7 +2,7 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 
-from player import Player
+from Fifa.player import Player
 
 
 def names_list(soup: BeautifulSoup) -> List[str]:
