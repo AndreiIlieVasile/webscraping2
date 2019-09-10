@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from PUBG.alchemy import *
-from PUBG.bsoup import continents_list, countries_list, players_list, games_list
+from PUBG.bsoup import continents_list, countries_list, players_list_pubg, players_list_cs, games_list
 
 LINK = 'https://liquipedia.net//Portal:Players'
 
@@ -16,7 +16,8 @@ def insert_games() -> None:
     soup = BeautifulSoup(source, 'html.parser')
 
     games = games_list(soup)
-    add_games(games)
+    for game in games:
+        add_game(game)
 
 
 def insert_continents(game: str) -> None:
@@ -25,7 +26,8 @@ def insert_continents(game: str) -> None:
     soup = BeautifulSoup(source, 'html.parser')
 
     continents = continents_list(game, soup)
-    add_continents(continents)
+    for continent in continents:
+        add_continent(continent)
 
 
 def insert_countries_from_continent(game: str, continent: str) -> None:
@@ -34,7 +36,8 @@ def insert_countries_from_continent(game: str, continent: str) -> None:
     soup = BeautifulSoup(source, 'html.parser')
 
     countries = countries_list(game, soup, continent)
-    add_countries(countries)
+    for country in countries:
+        add_country(country)
 
 
 def insert_players_from_country(game: str, continent: str, country: str) -> None:
@@ -42,8 +45,13 @@ def insert_players_from_country(game: str, continent: str, country: str) -> None
     source = requests.get(link).text
     soup = BeautifulSoup(source, 'html.parser')
 
-    players = players_list(game, soup, country)
-    add_players(players)
+    if game == 'counterstrike':
+        players = players_list_cs(game, soup, country)
+    else:
+        players = players_list_pubg(game, soup, country)
+
+    for player in players:
+        add_player(player)
 
 
 def insert_players_from_country_args() -> None:
@@ -69,7 +77,7 @@ def delete_countries() -> None:
     remove_all_countries()
 
 
-def delete_game() -> None:
+def delete_games() -> None:
     remove_all_games()
 
 
