@@ -5,8 +5,8 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 
-from bsoup import players_per_page_list, get_country_id
-from sql import DB
+from Fifa.bsoup import players_per_page_list, get_country_id
+from Fifa.sql import DB
 
 
 class Run:
@@ -33,7 +33,6 @@ class Run:
             for i in players:
                 self._database.insert(i)
             page += 1
-        print(type(self._database.get_players_by_ovr()))
         return self._database.get_players_by_ovr()
 
     def filter_young_pot(self) -> List[str]:

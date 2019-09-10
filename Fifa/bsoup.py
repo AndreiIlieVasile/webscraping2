@@ -2,7 +2,7 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 
-from player import Player
+from Fifa.player import Player
 
 
 def names_list(soup: BeautifulSoup) -> List[str]:
@@ -32,6 +32,7 @@ def team_list(soup: BeautifulSoup) -> List[str]:
 
 
 def players_per_page_list(soup: BeautifulSoup, num=60) -> List[Player]:
+
     names = names_list(soup)
     countries = countries_list(soup)
     ages = age_list(soup)
