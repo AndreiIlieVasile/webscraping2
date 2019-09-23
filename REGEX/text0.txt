@@ -1,0 +1,7 @@
+Hello world 0
+0 hello world
+world 0 hello
+wworld 0 hello
+world0 hello
+0world hello
+0 worldworld hello
