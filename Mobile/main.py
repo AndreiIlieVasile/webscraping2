@@ -32,6 +32,7 @@ def get_search_args() -> Dict:
 
 args_dict = get_search_args()
 
+
 cars_list = get_car_list_selenium(make_name=args_dict['make'], model_name=args_dict['model'],
                                   min_fr=args_dict['min_fr'], max_fr=args_dict['max_fr'])
 add_cars(cars_list=cars_list)

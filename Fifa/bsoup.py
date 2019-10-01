@@ -19,7 +19,7 @@ def age_list(soup: BeautifulSoup) -> List[str]:
 
 
 def ovr_list(soup: BeautifulSoup) -> List[str]:
-    return [i.span.text for i in soup.find_all('td', class_='col col-oa')]
+    return [i.span.text for i in soup.find_all('td', class_='col col-oa col-sort')]
 
 
 def pot_list(soup: BeautifulSoup) -> List[str]:

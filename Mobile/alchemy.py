@@ -2,7 +2,7 @@ from datetime import datetime
 from operator import attrgetter
 from typing import List, Tuple, Any
 
-from sqlalchemy import Column, String, Integer, Date, Numeric
+from sqlalchemy import Column, String, Integer, Date
 from sqlalchemy import create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -54,7 +54,7 @@ def get_min_max_fr_dates(cars_list: List[Car]) -> Tuple[Any, Any]:
     """
     Returns the min and max first registration_date from a list of cars
     :param cars_list: The cars list
-    :return: A dictionary with the min and max first registration date
+    :return: A tuple with the min and max first registration date
     """
     cars_list_min_fr = min(cars_list, key=attrgetter('fr_date')).fr_date
     cars_list_max_fr = max(cars_list, key=attrgetter('fr_date')).fr_date
@@ -115,7 +115,10 @@ def get_avg_price(make_name: str, model_name: str, min_fr_int: int, max_fr_int: 
 
     avg = my_session.query(func.avg(Car.price)).filter(Car.make == make_name, Car.model == model_name,
                                                        min_fr_date < Car.fr_date, Car.fr_date < max_fr_date).all()
-    return f'The average price for {make_name} {model_name} from {min_fr_int} to {max_fr_int} is: {avg[0]}'
+    avg = str(avg[0]).replace('(', '')
+    avg = avg.replace(',', '')
+    avg = avg.replace(')', '')
+    return f'The average price for {make_name} {model_name} from {min_fr_int} to {max_fr_int} is: {avg}'
 
 
 def remove_all_cars() -> None:

@@ -71,7 +71,7 @@ def get_car_price(car_div: BeautifulSoup) -> int:
     """
     Returns a car's price
     :param car_div: The div which contains the description
-    :return: A float representing the car's price
+    :return: An int representing the car's price
     """
     price_data = car_div.find('span', class_='h3 u-block').text.strip('€')
     price_data = price_data.replace(',', '')
@@ -113,13 +113,12 @@ def get_car_chase_fuel_transmission(car_div: BeautifulSoup) -> Dict:
     car_chase_fuel_transmission_dict = {}
     if car_data[0]:
         car_chase_fuel_transmission_dict['chase_type'] = car_data[0]
-    if len(car_data) > 2:
-        if ' Accident-free' not in car_data:
-            car_chase_fuel_transmission_dict['fuel_type'] = car_data[1]
-            car_chase_fuel_transmission_dict['transmission'] = car_data[2]
-        else:
-            car_chase_fuel_transmission_dict['fuel_type'] = car_data[2]
-            car_chase_fuel_transmission_dict['transmission'] = car_data[3]
+    if len(car_data) > 2 and ' Accident-free' not in car_data:
+        car_chase_fuel_transmission_dict['fuel_type'] = car_data[1]
+        car_chase_fuel_transmission_dict['transmission'] = car_data[2]
+    if len(car_data) > 3:
+        car_chase_fuel_transmission_dict['fuel_type'] = car_data[2]
+        car_chase_fuel_transmission_dict['transmission'] = car_data[3]
     return car_chase_fuel_transmission_dict
 
 
